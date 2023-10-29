@@ -58,7 +58,7 @@ class Header extends Component<MyProps, MyState> {
         <button className="button" onClick={this.handleClick}>
           Search
         </button>
-        <button className="button_error">Button for error</button>
+        <button className={styles.button_error}>Button for error</button>
       </div>
     );
   }
