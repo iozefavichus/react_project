@@ -81,6 +81,11 @@ class Catalog extends Component<MyProps, MyState> {
     } else if (!isLoaded) {
       return <p>Loading...</p>;
     }
+    if(apiInfo.length === 0){
+        return (
+            <div> Nothing was found </div>
+        )
+    }  else
     return (
       <div className={styles.result}>
         {apiInfo.map((el: CardType, index: number) => (

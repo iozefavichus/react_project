@@ -44,6 +44,11 @@ class Header extends Component<MyProps, MyState> {
     }
   };
 
+  handleError = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault;
+    throw new Error("Error is catched by ErrorBoundary");
+  };
+
   render(): JSX.Element {
     return (
       <div className={styles.searchbar}>
@@ -58,7 +63,7 @@ class Header extends Component<MyProps, MyState> {
         <button className="button" onClick={this.handleClick}>
           Search
         </button>
-        <button className={styles.button_error}>Button for error</button>
+        <button className={styles.button_error} onClick={() => {throw new Error("Error is catched by ErrorBoundary")}}>Button for error</button>
       </div>
     );
   }
