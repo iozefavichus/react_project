@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import styles from './card.module.css';
 import { CardProps } from './CardPropsType';
 
