@@ -1,4 +1,4 @@
-import { Component, ChangeEvent } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './header.module.css';
 
 type MyProps = {
@@ -6,74 +6,48 @@ type MyProps = {
   onChangeSearch(a: string): void;
 };
 
-type MyState = {
-  value: string | undefined;
-};
+function Header(props: MyProps) {
+  const [value, setValue] = useState(props.search);
 
-class Header extends Component<MyProps, MyState> {
-  constructor(props: MyProps) {
-    super(props);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault;
+    if (value) {
+      props.onChangeSearch(value);
+      localStorage.setItem('search', value);
+    }
+  };
 
-    this.state = {
-      value: this.props.search,
+  useEffect(() => {
+    return () => {
+      if (value) {
+        localStorage.setItem('search', value);
+      }
     };
-    this.handleChange = this.handleChange.bind(this);
-  }
+  }, [value]);
 
-  componentWillUnmount(): void {
-    if (this.state.value) {
-      localStorage.setItem('search', this.state.value);
-    }
-  }
-
-  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target) {
-      this.setState({
-        value: event.target.value,
-      });
-    }
-  };
-
-  handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault;
-    if (this.state.value) {
-      this.props.onChangeSearch(this.state.value);
-    }
-    if (this.state.value) {
-      localStorage.setItem('search', this.state.value);
-    }
-  };
-
-  handleError = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault;
-    throw new Error('Error is catched by ErrorBoundary');
-  };
-
-  render(): JSX.Element {
-    return (
-      <div className={styles.searchbar}>
-        <input
-          onChange={this.handleChange}
-          className={styles.input_search}
-          placeholder="Enter text ..."
-          type="text"
-          id="search"
-          value={this.state.value}
-        ></input>
-        <button className="button" onClick={this.handleClick}>
-          Search
-        </button>
-        <button
-          className={styles.button_error}
-          onClick={() => {
-            throw new Error('Error is catched by ErrorBoundary');
-          }}
-        >
-          Button for error
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div className={styles.searchbar}>
+      <input
+        onChange={() => setValue(value)}
+        className={styles.input_search}
+        placeholder="Enter text ..."
+        type="text"
+        id="search"
+        value={value}
+      ></input>
+      <button className="button" onClick={handleClick}>
+        Search
+      </button>
+      <button
+        className={styles.button_error}
+        onClick={() => {
+          throw new Error('Error is catched by ErrorBoundary');
+        }}
+      >
+        Button for error
+      </button>
+    </div>
+  );
 }
 
 export default Header;
