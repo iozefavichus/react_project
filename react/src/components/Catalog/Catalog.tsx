@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import styles from './catalog.module.css';
 import { Card } from '../Card/Card';
 import { CardType } from '../Card/CardPropsType';
+import Pagination from '../Pagination/Pagination';
+import ChooseLimit from '../ChooseLimit/ChooseLimit';
 
 type MyProps = {
   search: string;
@@ -39,6 +41,12 @@ function Catalog(props: MyProps) {
   } else
     return (
       <div className={styles.result}>
+        <ChooseLimit />
+        <Pagination
+          handleClick={startLoadingResults}
+          next={response.next}
+          previous={response.previous}
+        />
         {apiInfo.map((el: CardType, index: number) => (
           <Card key={index} {...el} />
         ))}
