@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import styles from './catalog.module.css';
 import { Card } from '../Card/Card';
 import { CardType } from '../Card/CardPropsType';
-import Pagination from '../Pagination/Pagination';
-import ChooseLimit from '../ChooseLimit/ChooseLimit';
+import { Link } from 'react-router-dom';
 
 type MyProps = {
   search: string;
+  limit: number;
 };
 
 function Catalog(props: MyProps) {
@@ -15,7 +15,7 @@ function Catalog(props: MyProps) {
   const [error] = useState(null);
 
   useEffect(() => {
-    fetch(`https://dummyjson.com/products`)
+    fetch(`https://dummyjson.com/products?limit=10`)
       .then((response) => response.json())
       .then(
         (response) => {
@@ -30,10 +30,8 @@ function Catalog(props: MyProps) {
   }, [props.search]);
 
   if (error) {
-    console.log('Hi1');
     return <p>Error</p>;
   } else if (!isLoaded) {
-    console.log('Hi2');
     return <p>Loading...</p>;
   }
   if (apiInfo.length === 0) {
@@ -41,14 +39,10 @@ function Catalog(props: MyProps) {
   } else
     return (
       <div className={styles.result}>
-        <ChooseLimit />
-        <Pagination
-          handleClick={startLoadingResults}
-          next={response.next}
-          previous={response.previous}
-        />
         {apiInfo.map((el: CardType, index: number) => (
-          <Card key={index} {...el} />
+          <Link key={index} to={`/detail/${el.id}`}>
+            <Card key={index} {...el} />
+          </Link>
         ))}
       </div>
     );

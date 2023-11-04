@@ -1,0 +1,9 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.page_number {
+    margin-left: 20px;
+    margin-right: 20px;
+}

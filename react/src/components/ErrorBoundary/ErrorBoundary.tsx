@@ -22,14 +22,16 @@ class ErrorBoundary extends Component<Props, State> {
   clearLocalStorage = () => {
     localStorage.setItem('search', '');
     window.location.reload();
-  }
+  };
 
   render() {
     if (this.state.hasError) {
-      return <div>
-        <h1>Something went wrong.</h1>
-        <button onClick={this.clearLocalStorage}> Return </button>
-        </div>;
+      return (
+        <div>
+          <h1>Something went wrong.</h1>
+          <button onClick={this.clearLocalStorage}> Return </button>
+        </div>
+      );
     }
 
     return this.props.children;

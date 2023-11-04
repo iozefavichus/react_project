@@ -1,5 +1,6 @@
 import { MouseEventHandler, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import styles from './pagination.module.css';
 
 function Pagination({
   handleClick,
@@ -32,23 +33,23 @@ function Pagination({
   };
 
   return (
-    <section className="pagination">
+    <section className={styles.pagination}>
       <Link
         to={`/${search}/${page === '1' ? page : Number(page) - 1}`}
         onClick={(e) => {
           handleBackClick(e);
         }}
       >
-        BACK
+        PREVIOUS
       </Link>
-      <div className="pageNumber">{curPage}</div>
+      <div className={styles.page_number}>2</div>
       <Link
         to={`/${search}/${Number(page) + 1}`}
         onClick={(e) => {
           handleForwardClick(e);
         }}
       >
-        FORWARD
+        NEXT
       </Link>
     </section>
   );
