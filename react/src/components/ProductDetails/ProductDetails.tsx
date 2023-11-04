@@ -53,7 +53,7 @@ function ProductDetails() {
       >
         Close detail info
       </Link>
-      {isLoaded && data ? <div>{showData(data)}</div> : ''}
+      {isLoaded && data ? <div>{showData(data)}</div> : 'The data is loading'}
     </div>
   );
 }

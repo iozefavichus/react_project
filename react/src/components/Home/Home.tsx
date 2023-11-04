@@ -1,7 +1,7 @@
 import Header from '../Header/Header';
 import Catalog from '../Catalog/Catalog';
 import { ReactNode, useState, useEffect } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Home = (): ReactNode => {
   const { page } = useParams();
@@ -28,7 +28,6 @@ const Home = (): ReactNode => {
         handleClick={changeLoadingState}
       ></Header>
       <Catalog search={search} limit={limit}></Catalog>
-      <Outlet />
     </div>
   );
 };
