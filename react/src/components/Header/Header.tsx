@@ -7,7 +7,7 @@ type MyProps = {
 };
 
 function Header(props: MyProps) {
-  const [value, setValue] = useState(props.search);
+  const [value, setValue] = useState('rick');
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault;
@@ -33,7 +33,7 @@ function Header(props: MyProps) {
         placeholder="Enter text ..."
         type="text"
         id="search"
-        value={value}
+        // value={value}
       ></input>
       <button className="button" onClick={handleClick}>
         Search

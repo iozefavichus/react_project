@@ -6,14 +6,23 @@ import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-  RouterProvider
+  RouterProvider,
 } from 'react-router-dom';
+import { Page404 } from './components/Page404/Page404.tsx';
+import { About } from './components/About/About.tsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />} errorElement={<Page404 />}></Route>
+    <Route path="/" element={<App />} errorElement={<App />}>
+      <Route
+        path="/about"
+        element={<About />}
+        errorElement={<Page404 />}
+      ></Route>
+      <Route path="*" element={<Page404 />} errorElement={<Page404 />}></Route>
+    </Route>
   )
-)
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

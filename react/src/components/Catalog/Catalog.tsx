@@ -8,21 +8,20 @@ type MyProps = {
 };
 
 function Catalog(props: MyProps) {
-  const [isLoaded] = useState(false);
-  const [apiInfo] = useState([]);
+  const [isLoaded, isLoadedChange] = useState(false);
+  const [apiInfo, apiInfoChange] = useState([]);
   const [error] = useState(null);
 
   useEffect(() => {
-    console.log('API loaded');
-    fetch(`https://rickandmortyapi.com/api/character/?name=${props.search}`)
+    fetch(`https://dummyjson.com/products`)
       .then((response) => response.json())
       .then(
         (response) => {
-          apiInfo: response.results;
-          isLoaded: true;
+          apiInfoChange(response.products);
+          isLoadedChange(true);
         },
         (error) => {
-          isLoaded: true;
+          isLoadedChange(true);
           error;
         }
       );
