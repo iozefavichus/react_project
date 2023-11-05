@@ -51,7 +51,9 @@ function ProductDetails() {
   return (
     <div className={styles.container}>
       <Link
-        to={`/?search=${paramSearch}&skip=${paramSkip}&limit=${paramLimit}`}
+        to={`/?search=${
+          paramSearch === 'search' ? '' : paramSearch
+        }&skip=${paramSkip}&limit=${paramLimit}`}
         className="closeInfo"
       >
         Close detail info

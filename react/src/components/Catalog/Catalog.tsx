@@ -56,7 +56,7 @@ function Catalog(props: MyProps) {
         {apiInfo.map((el: CardType, index: number) => (
           <Link
             key={index}
-            to={`/detail/${el.id}/${paramSearch ? paramSearch : '0'}/${
+            to={`/detail/${el.id}/${paramSearch ? paramSearch : 'search'}/${
               paramSkip ? paramSkip : 0
             }/${paramLimit ? paramLimit : 10}`}
           >
