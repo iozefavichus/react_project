@@ -1,58 +1,73 @@
-import { MouseEventHandler, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { MouseEventHandler } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import styles from './pagination.module.css';
 
-function Pagination({
-  handleClick,
-  next,
-  previous,
-}: {
-  handleClick: () => void;
-  next: null | number;
-  previous: null | number;
-}) {
-  const { page, search, limit } = useParams();
-  const [curPage, setCurPage] = useState(page);
+type MyProps = {
+  search: string;
+  page: number;
+  limit: number;
+};
+
+function Pagination(props: MyProps) {
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const paramSearch = searchParams.get('search');
+  const paramPage = Number(searchParams.get('skip')) / 10 + 1;
+  const paramLimit = searchParams.get('limit');
 
   const handleBackClick: MouseEventHandler = (e) => {
-    if (!previous) {
+    if (paramPage == 1) {
       e.preventDefault();
     } else {
-      setCurPage(`${Number(curPage) - 1}`);
-      handleClick();
+      const newValueCurPage = paramPage - 1;
+      navigate(
+        `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
+          Number(newValueCurPage)
+        )}&limit=${paramLimit ? paramLimit : props.limit}`
+      );
     }
   };
 
   const handleForwardClick: MouseEventHandler = (e) => {
-    if (!next) {
-      e.preventDefault();
-    } else {
-      setCurPage(`${Number(curPage) + 1}`);
-      handleClick();
-    }
+    e.preventDefault();
+    const newValueCurPage = paramPage + 1;
+    navigate(
+      `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
+        Number(newValueCurPage - 1)
+      )}&limit=${paramLimit ? paramLimit : props.limit}`
+    );
   };
+
+  const skip = (paramPage: number): number => {
+    let result;
+    if (paramPage) {
+      result = paramPage * 10;
+    } else {
+      result = 0;
+    }
+    return result;
+  };
+
+  console.log(skip(Number(paramPage) + 1), paramLimit, props.limit);
 
   return (
     <section className={styles.pagination}>
-      <Link
-        to={`?search=${search}&page=${
-          page === '1' ? page : Number(page) - 1
-        }&limit=${limit}`}
+      <button
         onClick={(e) => {
           handleBackClick(e);
         }}
       >
         PREVIOUS
-      </Link>
-      <div className={styles.page_number}>{curPage}</div>
-      <Link
-        to={`?search=${search}&page=${Number(page) + 1}&limit=${limit}`}
+      </button>
+      <div className={styles.page_number}>{paramPage}</div>
+      <button
         onClick={(e) => {
           handleForwardClick(e);
         }}
       >
         NEXT
-      </Link>
+      </button>
     </section>
   );
 }

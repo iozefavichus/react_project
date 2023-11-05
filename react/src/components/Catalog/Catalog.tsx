@@ -15,17 +15,33 @@ function Catalog(props: MyProps) {
   const [apiInfo, apiInfoChange] = useState([]);
   const [error] = useState(null);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const paramSearch = searchParams.get('search');
-  const paramPage = searchParams.get('page');
+  const paramPage = Number(searchParams.get('skip')) / 10 + 1;
   const paramLimit = searchParams.get('limit');
-  console.log('catalog', paramSearch, paramPage, paramLimit);
+
+  const skip = (paramPage: number): number => {
+    let result;
+    if (paramPage) {
+      result = paramPage * 10;
+    } else {
+      result = 0;
+    }
+    return result;
+  };
 
   useEffect(() => {
-    fetch(
-      `https://dummyjson.com/products?search=${
+    console.log(
+      `https://dummyjson.com/products?search?q=${
         paramSearch ? paramSearch : props.search
-      }&page=${paramPage ? paramPage : props.page}&limit=${
+      }&skip=${skip(Number(paramPage))}&limit=${
+        paramLimit ? paramLimit : props.limit
+      }`
+    );
+    fetch(
+      `https://dummyjson.com/products?search?q=${
+        paramSearch ? paramSearch : props.search
+      }&skip=${skip(Number(paramPage))}&limit=${
         paramLimit ? paramLimit : props.limit
       }`
     )

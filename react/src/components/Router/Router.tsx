@@ -6,7 +6,7 @@ import ProductDetails from '../ProductDetails/ProductDetails';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App limit={5} page={1} search={''} />,
+    element: <App limit={10} page={1} search={''} />,
     errorElement: <Page404 />,
     children: [
       {
@@ -14,7 +14,7 @@ const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
-        path: ':search/:page/:limit',
+        path: ':search/:skip/:limit',
         element: <ProductDetails />,
       },
       {
