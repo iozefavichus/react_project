@@ -6,17 +6,7 @@ import ProductDetails from '../ProductDetails/ProductDetails';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: (
-      <App
-        limit={10}
-        page={1}
-        search={
-          String(localStorage.getItem('search'))
-            ? String(localStorage.getItem('search'))
-            : ''
-        }
-      />
-    ),
+    element: <App limit={10} page={1} search={''} />,
     errorElement: <Page404 />,
     children: [
       {
