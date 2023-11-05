@@ -8,10 +8,10 @@ function Pagination({
   previous,
 }: {
   handleClick: () => void;
-  next: null | string;
-  previous: null | string;
+  next: null | number;
+  previous: null | number;
 }) {
-  const { page, search } = useParams();
+  const { page, search, limit } = useParams();
   const [curPage, setCurPage] = useState(page);
 
   const handleBackClick: MouseEventHandler = (e) => {
@@ -35,16 +35,18 @@ function Pagination({
   return (
     <section className={styles.pagination}>
       <Link
-        to={`/${search}/${page === '1' ? page : Number(page) - 1}`}
+        to={`?search=${search}&page=${
+          page === '1' ? page : Number(page) - 1
+        }&limit=${limit}`}
         onClick={(e) => {
           handleBackClick(e);
         }}
       >
         PREVIOUS
       </Link>
-      <div className={styles.page_number}>2</div>
+      <div className={styles.page_number}>{curPage}</div>
       <Link
-        to={`/${search}/${Number(page) + 1}`}
+        to={`?search=${search}&page=${Number(page) + 1}&limit=${limit}`}
         onClick={(e) => {
           handleForwardClick(e);
         }}

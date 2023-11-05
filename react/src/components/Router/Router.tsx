@@ -6,11 +6,15 @@ import ProductDetails from '../ProductDetails/ProductDetails';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <App limit={5} page={1} search={''} />,
     errorElement: <Page404 />,
     children: [
       {
         path: 'detail/:id',
+        element: <ProductDetails />,
+      },
+      {
+        path: ':search/:page/:limit',
         element: <ProductDetails />,
       },
       {

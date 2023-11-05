@@ -2,10 +2,16 @@ import { Outlet } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home/Home';
 
-function App() {
+export interface AppProps {
+  limit: number;
+  page: number;
+  search: string;
+}
+
+function App(props: AppProps) {
   return (
     <div className="container">
-      <Home></Home>
+      <Home limit={props.limit} page={props.page} search={props.search}></Home>
       <Outlet></Outlet>
     </div>
   );

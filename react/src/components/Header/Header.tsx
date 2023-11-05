@@ -1,13 +1,15 @@
-import { useState, ChangeEvent } from 'react';
+// import { useState, ChangeEvent } from 'react';
 import styles from './header.module.css';
 import ChooseLimit from '../ChooseLimit/ChooseLimit';
 import Pagination from '../Pagination/Pagination';
-import { useLoaderData } from 'react-router-dom';
+import { useState } from 'react';
+// import { useLoaderData, useParams } from 'react-router-dom';
 
 type MyProps = {
-  search?: string | undefined;
-  // onChangeSearch(a: string): void;
-  handleClick: (value: string) => void;
+  search: string;
+  page: number;
+  limit: number;
+  // handleClick: (value: string) => void;
 };
 
 function Header(props: MyProps) {
@@ -15,38 +17,28 @@ function Header(props: MyProps) {
     const localValue = localStorage.getItem('search');
     return localValue ? JSON.parse(localValue) : '';
   };
+  const [isLoaded, isLoadedChange] = useState(false);
+  // const [search, limit, page] = useParams();
 
-  const [value, setValue] = useState(getInputValue());
-  const [limit, setLimit] = useState(0);
+  // const [value, setValue] = useState(getInputValue());
+  // const [limit, setLimit] = useState(0);
+  // const [page, setPage] = useState(0);
+  // const [search, setSearch] = useState(0);
 
-  const response = useLoaderData() as Response;
+  // const response = useLoaderData() as Response;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    localStorage.setItem('inputValue', JSON.stringify(e.target.value));
-    setValue(e.target.value);
-  };
+  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   localStorage.setItem('inputValue', JSON.stringify(e.target.value));
+  //   setValue(e.target.value);
+  // };
+
+  // const handleChangeLimit = (value: number) => {
+  //   setLimit(value);
+  // };
 
   const startLoadingResults = () => {
     isLoadedChange(true);
   };
-
-  // const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault;
-  //   setValue(event.target.value);
-  //   if (value) {
-  //     console.log(value);
-  //     props.onChangeSearch(value);
-  //     localStorage.setItem('search', value);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (value) {
-  //       localStorage.setItem('search', value);
-  //     }
-  //   };
-  // }, [value]);
 
   return (
     <div className={styles.searchbar}>
@@ -56,14 +48,14 @@ function Header(props: MyProps) {
         placeholder={getInputValue()}
         type="text"
         id="search"
-        onInput={handleInputChange}
+        // onInput={handleInputChange}
         // value={value}
       ></input>
       <button
         className="button"
-        onClick={() => {
-          props.handleClick(value);
-        }}
+        // onClick={() => {
+        //   props.handleClick(value);
+        // }}
       >
         Search
       </button>
@@ -75,8 +67,17 @@ function Header(props: MyProps) {
       >
         Button for error
       </button>
-      <Pagination handleClick={startLoadingResults} next={'3'} previous={'1'} />
-      <ChooseLimit />
+      <Pagination
+        handleClick={startLoadingResults}
+        next={props.page + 1}
+        previous={props.page === 1 ? 1 : props.page - 1}
+      />
+      <ChooseLimit
+        search={props.search}
+        page={props.page}
+        limit={props.limit}
+        // handleChange={handleChangeLimit}
+      />
     </div>
   );
 }

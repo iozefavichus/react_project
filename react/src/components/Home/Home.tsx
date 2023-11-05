@@ -1,33 +1,45 @@
 import Header from '../Header/Header';
 import Catalog from '../Catalog/Catalog';
-import { ReactNode, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+// import { ReactNode } from 'react';
+// import { useParams } from 'react-router-dom';
 
-const Home = (): ReactNode => {
-  const { page } = useParams();
-  const [search, setSearch] = useState(localStorage.getItem('search') || '');
+export interface AppProps {
+  limit: number;
+  page: number;
+  search: string;
+}
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [limit, setLimit] = useState(0);
+const Home = (props: AppProps) => {
+  // const [page, setPage] = useState(1);
+  // const [search, setSearch] = useState(localStorage.getItem('search') || '');
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [search, page]);
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [limit, setLimit] = useState(0);
 
-  const changeLoadingState = (value?: string, pageNumber?: string) => {
-    setSearch(search);
-    setLimit(limit);
-    if (value !== search || pageNumber !== page) setIsLoading(true);
-  };
+  // useEffect(() => {
+  //   setIsLoading(false);
+  // }, [search, page, limit]);
+
+  // const changeLoadingState = (value?: string, pageNumber?: number) => {
+  //   // setSearch(search);
+  //   // setLimit(limit);
+  //   if (value !== search || pageNumber !== page) setIsLoading(true);
+  // };
 
   return (
     <div>
       <Header
-        search={search}
+        search={props.search}
+        limit={props.limit}
+        page={props.page}
         // onChangeSearch={() => setSearch(search)}
-        handleClick={changeLoadingState}
+        // handleClick={changeLoadingState}
       ></Header>
-      <Catalog search={search} limit={limit}></Catalog>
+      <Catalog
+        search={props.search}
+        limit={props.limit}
+        page={props.page}
+      ></Catalog>
     </div>
   );
 };
