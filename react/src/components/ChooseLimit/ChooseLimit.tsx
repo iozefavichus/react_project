@@ -15,10 +15,8 @@ const ChooseLimit = (props: PropsLimit) => {
   const paramSearch = searchParams.get('search');
   const paramPage = searchParams.get('page');
   const paramLimit = searchParams.get('limit');
-  console.log(paramLimit);
 
   const [limit, setlimit] = useState(paramLimit ? paramLimit : props.limit);
-  console.log('1-', limit);
 
   const skip = (paramPage: number): number => {
     let result;
@@ -33,7 +31,6 @@ const ChooseLimit = (props: PropsLimit) => {
   const changeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
     const limitValue = e.target.value;
     setlimit(Number(limitValue));
-    console.log('2-', limit, limitValue);
     navigate(
       `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
         Number(paramPage)
@@ -44,7 +41,12 @@ const ChooseLimit = (props: PropsLimit) => {
   return (
     <section className={styles.limit} defaultValue={limit}>
       <label htmlFor="limit">Results per page</label>
-      <select name="limit" id="limit" onChange={changeLimit}>
+      <select
+        className={styles.area_limit}
+        name="limit"
+        id="limit"
+        onChange={changeLimit}
+      >
         <option value={'none'} selected disabled hidden>
           Select limit
         </option>

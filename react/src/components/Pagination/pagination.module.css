@@ -6,4 +6,6 @@
 .page_number {
     margin-left: 20px;
     margin-right: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
 }

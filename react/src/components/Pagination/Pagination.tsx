@@ -16,11 +16,27 @@ function Pagination(props: MyProps) {
   const paramPage = Number(searchParams.get('skip')) / 10 + 1;
   const paramLimit = searchParams.get('limit');
 
+  const skip = (paramPage: number): number => {
+    let result;
+    if (paramPage) {
+      result = paramPage * 10;
+    } else {
+      result = 0;
+    }
+    return result;
+  };
+
   const handleBackClick: MouseEventHandler = (e) => {
     if (paramPage == 1) {
       e.preventDefault();
+    } else if (paramPage == 2) {
+      navigate(
+        `/?search=${paramSearch ? paramSearch : props.search}&skip=0&limit=${
+          paramLimit ? paramLimit : props.limit
+        }`
+      );
     } else {
-      const newValueCurPage = paramPage - 1;
+      const newValueCurPage = paramPage - 2;
       navigate(
         `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
           Number(newValueCurPage)
@@ -38,18 +54,6 @@ function Pagination(props: MyProps) {
       )}&limit=${paramLimit ? paramLimit : props.limit}`
     );
   };
-
-  const skip = (paramPage: number): number => {
-    let result;
-    if (paramPage) {
-      result = paramPage * 10;
-    } else {
-      result = 0;
-    }
-    return result;
-  };
-
-  console.log(skip(Number(paramPage) + 1), paramLimit, props.limit);
 
   return (
     <section className={styles.pagination}>

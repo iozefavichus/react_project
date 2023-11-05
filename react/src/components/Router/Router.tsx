@@ -6,15 +6,17 @@ import ProductDetails from '../ProductDetails/ProductDetails';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App limit={10} page={1} search={''} />,
+    element: (
+      <App
+        limit={10}
+        page={1}
+        search={String(localStorage.getItem('search'))}
+      />
+    ),
     errorElement: <Page404 />,
     children: [
       {
-        path: 'detail/:id',
-        element: <ProductDetails />,
-      },
-      {
-        path: ':search/:skip/:limit',
+        path: 'detail/:id/:search/:skip/:limit',
         element: <ProductDetails />,
       },
       {

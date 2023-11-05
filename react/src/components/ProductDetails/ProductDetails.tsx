@@ -8,6 +8,11 @@ function ProductDetails() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState(null);
 
+  const searchParams = useParams();
+  const paramSearch = searchParams['search'];
+  const paramSkip = searchParams['skip'];
+  const paramLimit = searchParams['limit'];
+
   useEffect(() => {
     fetch(`https://dummyjson.com/products/${id}`)
       .then((response) => response.json())
@@ -22,8 +27,6 @@ function ProductDetails() {
         }
       );
   }, [id]);
-
-  const { page, search, limit } = useParams();
 
   const showData = (data: CardType) => {
     const { id, title, images, price, description } = data;
@@ -48,7 +51,7 @@ function ProductDetails() {
   return (
     <div className={styles.container}>
       <Link
-        to={`/?search=${search}&page=${page}&limit=${limit}`}
+        to={`/?search=${paramSearch}&skip=${paramSkip}&limit=${paramLimit}`}
         className="closeInfo"
       >
         Close detail info

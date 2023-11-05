@@ -1,7 +1,8 @@
-// import { useState, ChangeEvent } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './header.module.css';
 import ChooseLimit from '../ChooseLimit/ChooseLimit';
 import Pagination from '../Pagination/Pagination';
+import { MouseEventHandler, useState } from 'react';
 
 type MyProps = {
   search: string;
@@ -10,20 +11,51 @@ type MyProps = {
 };
 
 function Header(props: MyProps) {
-  const getInputValue = () => {
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const paramSearch = searchParams.get('search');
+  const paramSkip = searchParams.get('skip');
+  const paramLimit = searchParams.get('limit');
+
+  const getInputValue = (): string => {
     const localValue = localStorage.getItem('search');
-    return localValue ? JSON.parse(localValue) : '';
+    return localValue ? localValue : '';
+  };
+
+  const [SearchValue, setSearchValue] = useState(
+    paramSearch ? paramSearch : getInputValue()
+  );
+
+  const handleClick: MouseEventHandler = (e) => {
+    e.preventDefault();
+    localStorage.setItem('search', SearchValue);
+    navigate(
+      `/?search=${SearchValue}&skip=${paramSkip ? paramSkip : '0'}&limit=${
+        paramLimit ? paramLimit : props.limit
+      }`
+    );
   };
 
   return (
     <div className={styles.searchbar}>
       <input
+        onChange={(e) => {
+          setSearchValue(e.target.value);
+        }}
         className={styles.input_search}
         placeholder={getInputValue()}
         type="text"
         id="search"
       ></input>
-      <button className="button">Search</button>
+      <button
+        className="button"
+        onClick={(e) => {
+          handleClick(e);
+        }}
+      >
+        Search
+      </button>
       <button
         className={styles.button_error}
         onClick={() => {

@@ -16,32 +16,17 @@ function Catalog(props: MyProps) {
   const [error] = useState(null);
 
   const [searchParams] = useSearchParams();
-  const paramSearch = searchParams.get('search');
-  const paramPage = Number(searchParams.get('skip')) / 10 + 1;
+  const paramSearch = searchParams.get('search')
+    ? searchParams.get('search')
+    : localStorage.getItem('search');
+  const paramSkip = searchParams.get('skip');
   const paramLimit = searchParams.get('limit');
 
-  const skip = (paramPage: number): number => {
-    let result;
-    if (paramPage) {
-      result = paramPage * 10;
-    } else {
-      result = 0;
-    }
-    return result;
-  };
-
   useEffect(() => {
-    console.log(
-      `https://dummyjson.com/products?search?q=${
-        paramSearch ? paramSearch : props.search
-      }&skip=${skip(Number(paramPage))}&limit=${
-        paramLimit ? paramLimit : props.limit
-      }`
-    );
     fetch(
-      `https://dummyjson.com/products?search?q=${
+      `https://dummyjson.com/products/search?q=${
         paramSearch ? paramSearch : props.search
-      }&skip=${skip(Number(paramPage))}&limit=${
+      }&skip=${paramSkip ? paramSkip : 0}&limit=${
         paramLimit ? paramLimit : props.limit
       }`
     )
@@ -56,7 +41,7 @@ function Catalog(props: MyProps) {
           error;
         }
       );
-  }, [paramSearch, paramPage, paramLimit]);
+  }, [paramSearch, paramSkip, paramLimit]);
 
   if (error) {
     return <p>Error</p>;
@@ -69,7 +54,12 @@ function Catalog(props: MyProps) {
     return (
       <div className={styles.result}>
         {apiInfo.map((el: CardType, index: number) => (
-          <Link key={index} to={`/detail/${el.id}`}>
+          <Link
+            key={index}
+            to={`/detail/${el.id}/${paramSearch ? paramSearch : '0'}/${
+              paramSkip ? paramSkip : 0
+            }/${paramLimit ? paramLimit : 10}`}
+          >
             <Card key={index} {...el} />
           </Link>
         ))}
