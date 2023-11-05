@@ -10,7 +10,11 @@ const router = createBrowserRouter([
       <App
         limit={10}
         page={1}
-        search={String(localStorage.getItem('search'))}
+        search={
+          String(localStorage.getItem('search'))
+            ? String(localStorage.getItem('search'))
+            : ''
+        }
       />
     ),
     errorElement: <Page404 />,
