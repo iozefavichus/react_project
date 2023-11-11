@@ -1,16 +1,23 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import styles from './header.module.css';
+import styles from './search.module.css';
 import ChooseLimit from '../ChooseLimit/ChooseLimit';
 import Pagination from '../Pagination/Pagination';
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useState, useEffect } from 'react';
+import { useMyContext } from '../../context';
 
-type MyProps = {
-  search: string;
-  page: number;
-  limit: number;
-};
+function Header() {
+  const { localStorageValue, setLocalStorageValue, limit } = useMyContext();
+  // const [value, setValue] = useState(localStorageValue);
 
-function Header(props: MyProps) {
+  useEffect(() => {
+    setLocalStorageValue(localStorageValue);
+  }, [localStorageValue]);
+
+  // const setToLocalStorage = (value: string) => {
+  //   localStorage.setItem('inputValue', value);
+  //   setLocalStorageValue(value);
+  // };
+
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -32,7 +39,7 @@ function Header(props: MyProps) {
     localStorage.setItem('search', SearchValue);
     navigate(
       `/?search=${SearchValue}&skip=${paramSkip ? paramSkip : '0'}&limit=${
-        paramLimit ? paramLimit : props.limit
+        paramLimit ? paramLimit : limit
       }`
     );
   };
@@ -64,12 +71,8 @@ function Header(props: MyProps) {
       >
         Button for error
       </button>
-      <Pagination search={props.search} page={props.page} limit={props.limit} />
-      <ChooseLimit
-        search={props.search}
-        page={props.page}
-        limit={props.limit}
-      />
+      <Pagination />
+      <ChooseLimit />
     </div>
   );
 }

@@ -1,14 +1,11 @@
 import { MouseEventHandler } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import styles from './pagination.module.css';
+import { useMyContext } from '../../context';
 
-type MyProps = {
-  search: string;
-  page: number;
-  limit: number;
-};
+function Pagination() {
+  const { localStorageValue, limit } = useMyContext();
 
-function Pagination(props: MyProps) {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -31,16 +28,16 @@ function Pagination(props: MyProps) {
       e.preventDefault();
     } else if (paramPage == 2) {
       navigate(
-        `/?search=${paramSearch ? paramSearch : props.search}&skip=0&limit=${
-          paramLimit ? paramLimit : props.limit
-        }`
+        `/?search=${
+          paramSearch ? paramSearch : localStorageValue
+        }&skip=0&limit=${paramLimit ? paramLimit : limit}`
       );
     } else {
       const newValueCurPage = paramPage - 2;
       navigate(
-        `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
+        `/?search=${paramSearch ? paramSearch : localStorageValue}&skip=${skip(
           Number(newValueCurPage)
-        )}&limit=${paramLimit ? paramLimit : props.limit}`
+        )}&limit=${paramLimit ? paramLimit : limit}`
       );
     }
   };
@@ -49,9 +46,9 @@ function Pagination(props: MyProps) {
     e.preventDefault();
     const newValueCurPage = paramPage + 1;
     navigate(
-      `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
+      `/?search=${paramSearch ? paramSearch : localStorageValue}&skip=${skip(
         Number(newValueCurPage - 1)
-      )}&limit=${paramLimit ? paramLimit : props.limit}`
+      )}&limit=${paramLimit ? paramLimit : limit}`
     );
   };
 

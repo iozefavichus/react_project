@@ -1,14 +1,11 @@
 import { ChangeEvent, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './choose.module.css';
+import { useMyContext } from '../../context';
 
-export interface PropsLimit {
-  search: string;
-  page: number;
-  limit: number;
-}
+const ChooseLimit = () => {
+  const { localStorageValue, limit } = useMyContext();
 
-const ChooseLimit = (props: PropsLimit) => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
@@ -16,7 +13,7 @@ const ChooseLimit = (props: PropsLimit) => {
   const paramPage = searchParams.get('page');
   const paramLimit = searchParams.get('limit');
 
-  const [limit, setlimit] = useState(paramLimit ? paramLimit : props.limit);
+  const [limitValue, setlimitValue] = useState(paramLimit ? paramLimit : limit);
 
   const skip = (paramPage: number): number => {
     let result;
@@ -30,16 +27,16 @@ const ChooseLimit = (props: PropsLimit) => {
 
   const changeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
     const limitValue = e.target.value;
-    setlimit(Number(limitValue));
+    setlimitValue(Number(limitValue));
     navigate(
-      `/?search=${paramSearch ? paramSearch : props.search}&skip=${skip(
+      `/?search=${paramSearch ? paramSearch : localStorageValue}&skip=${skip(
         Number(paramPage)
       )}&limit=${limitValue}`
     );
   };
 
   return (
-    <section className={styles.limit} defaultValue={limit}>
+    <section className={styles.limit} defaultValue={limitValue}>
       <label htmlFor="limit">Results per page</label>
       <select
         className={styles.area_limit}

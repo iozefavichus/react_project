@@ -1,5 +1,5 @@
-import Header from '../Header/Header';
-import Catalog from '../Catalog/Catalog';
+import Header from '../Search/Search';
+import Catalog from '../CardList/CardList';
 
 export interface AppProps {
   limit: number;

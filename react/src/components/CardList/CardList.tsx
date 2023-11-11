@@ -3,14 +3,11 @@ import styles from './catalog.module.css';
 import { Card } from '../Card/Card';
 import { CardType } from '../Card/CardPropsType';
 import { Link, useSearchParams } from 'react-router-dom';
+import { useMyContext } from '../../context';
 
-type MyProps = {
-  search: string;
-  page: number;
-  limit: number;
-};
+function Catalog() {
+  const { localStorageValue, limit } = useMyContext();
 
-function Catalog(props: MyProps) {
   const [isLoaded, isLoadedChange] = useState(false);
   const [apiInfo, apiInfoChange] = useState([]);
   const [error] = useState(null);
@@ -25,9 +22,9 @@ function Catalog(props: MyProps) {
   useEffect(() => {
     fetch(
       `https://dummyjson.com/products/search?q=${
-        paramSearch ? paramSearch : props.search
+        paramSearch ? paramSearch : localStorageValue
       }&skip=${paramSkip ? paramSkip : 0}&limit=${
-        paramLimit ? paramLimit : props.limit
+        paramLimit ? paramLimit : limit
       }`
     )
       .then((response) => response.json())
