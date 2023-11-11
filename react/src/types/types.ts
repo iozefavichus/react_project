@@ -6,10 +6,9 @@ export interface CardProps {
   description: string;
 }
 
-export interface CardType {
-  id: number;
-  title: string;
-  images: string[];
-  price: number;
-  description: string;
+export interface ApiData {
+  products: CardProps[];
+  total: number;
+  skip: number;
+  limit: number;
 }

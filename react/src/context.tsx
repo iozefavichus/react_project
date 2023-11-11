@@ -1,6 +1,7 @@
 import React from 'react';
 import { createContext } from 'react';
 import { ReactNode, useState, useContext } from 'react';
+import { ApiData, CardProps } from './types/types';
 
 interface ContextValue {
   localStorageValue: string;
@@ -9,7 +10,24 @@ interface ContextValue {
   setPage: (value: number) => void;
   limit: number;
   setLimit: (value: number) => void;
+  apiData: ApiData;
+  setFetchData: (data: ApiData) => void;
 }
+
+const searchResults: CardProps = {
+  id: 0,
+  title: '',
+  images: [''],
+  price: 0,
+  description: '',
+};
+
+const searchApiResults: ApiData = {
+  products: [searchResults],
+  total: 0,
+  skip: 0,
+  limit: 10,
+};
 
 const SearchContext = createContext<ContextValue | undefined>({
   localStorageValue: '',
@@ -18,6 +36,8 @@ const SearchContext = createContext<ContextValue | undefined>({
   setPage: () => {},
   limit: 10,
   setLimit: () => {},
+  apiData: { products: [], total: 0, skip: 0, limit: 10 },
+  setFetchData: () => {},
 });
 
 export const SearchProvider: React.FC<{ children: ReactNode }> = ({
@@ -28,13 +48,14 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({
     return storedValue || '';
   });
   const [page, setPage] = useState(() => {
-    const page = 1;
+    const page = 0;
     return page;
   });
   const [limit, setLimit] = useState(() => {
     const limit = 10;
     return limit;
   });
+  const [apiData, setFetchData] = useState<ApiData>(searchApiResults);
 
   return (
     <SearchContext.Provider
@@ -45,6 +66,8 @@ export const SearchProvider: React.FC<{ children: ReactNode }> = ({
         setPage,
         limit,
         setLimit,
+        apiData,
+        setFetchData,
       }}
     >
       {children}

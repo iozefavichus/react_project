@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styles from './product.module.css';
-import { CardType } from '../Card/CardPropsType';
+import { CardProps } from '../../types/types';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -28,7 +28,7 @@ function ProductDetails() {
       );
   }, [id]);
 
-  const showData = (data: CardType) => {
+  const showData = (data: CardProps) => {
     const { id, title, images, price, description } = data;
     return (
       <div>

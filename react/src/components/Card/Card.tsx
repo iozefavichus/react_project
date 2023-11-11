@@ -1,5 +1,5 @@
 import styles from './card.module.css';
-import { CardProps } from './CardPropsType';
+import { CardProps } from '../../types/types';
 
 function Card(props: CardProps) {
   const { id, title, images, price, description } = props;
