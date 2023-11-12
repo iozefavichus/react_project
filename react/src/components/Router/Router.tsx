@@ -6,7 +6,7 @@ import ProductDetails from '../CardDetailed/CardDetailed';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App limit={10} page={1} search={''} />,
+    element: <App />,
     errorElement: <Page404 />,
     children: [
       {

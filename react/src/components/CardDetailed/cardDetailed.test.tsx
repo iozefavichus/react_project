@@ -1,11 +1,13 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { SearchContext } from '../../context';
-import Pagination from './Pagination';
-import userEvent from '@testing-library/user-event';
-import App from '../../App';
+import ProductDetails from './CardDetailed';
+import * as ApiHelper from '../ApiHelper/ApiHelper';
+import Home from '../Home/Home';
 
-describe('Pagination', () => {
+jest.mock('../ApiHelper/ApiHelper');
+
+describe('ProductDetails', () => {
   const apiDataValue = {
     products: [
       {
@@ -74,38 +76,24 @@ describe('Pagination', () => {
     setFetchData: () => {},
   };
 
-  test('the pagination component updates URL query parameter when page change', async () => {
+  test('displays detailed card data', async () => {
+    jest
+      .spyOn(ApiHelper, 'fetchDetailed')
+      .mockResolvedValue(apiDataValue.products[0]);
     await act(async () => {
       render(
         <BrowserRouter>
           <SearchContext.Provider value={context}>
-            <App></App>
-          </SearchContext.Provider>
-        </BrowserRouter>
-      );
-    });
-
-    const btnNext = await screen.findByTestId('btn-next');
-    const user = userEvent.setup();
-    user.click(btnNext);
-
-    await waitFor(() => {
-      expect(window.location.pathname).toEqual('/');
-    });
-  });
-
-  test('renders the pagination', async () => {
-    await act(async () => {
-      render(
-        <BrowserRouter>
-          <SearchContext.Provider value={context}>
+            <Home></Home>
             <Routes>
-              <Route path="/*" element={<Pagination />} />
+              <Route
+                path="detail/1/?search=&skip=0&limit=10"
+                element={<ProductDetails />}
+              />
             </Routes>
           </SearchContext.Provider>
         </BrowserRouter>
       );
     });
-    expect(true).toBeTruthy();
   });
 });

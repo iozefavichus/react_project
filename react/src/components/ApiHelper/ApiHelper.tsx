@@ -16,3 +16,13 @@ export const fetchData = async (
   }
   return await response.json();
 };
+
+export const fetchDetailed = async (id: string) => {
+  const url = `https://dummyjson.com/products/${id}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return await response.json();
+};

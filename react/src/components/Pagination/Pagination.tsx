@@ -63,6 +63,7 @@ function Pagination() {
       </button>
       <div className={styles.page_number}>{paramPage}</div>
       <button
+        data-testid="btn-next"
         onClick={(e) => {
           handleForwardClick(e);
         }}
