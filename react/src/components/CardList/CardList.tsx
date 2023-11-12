@@ -11,8 +11,6 @@ function Catalog() {
   const { apiData, setFetchData } = useMyContext();
 
   const [isLoaded, isLoadedChange] = useState(false);
-  // const [apiInfo, apiInfoChange] = useState([]);
-  // const [error] = useState(null);
 
   const [searchParams] = useSearchParams();
   const paramSearch = searchParams.get('search')
@@ -58,7 +56,7 @@ function Catalog() {
     return <div>Nothing found</div>;
   } else {
     return (
-      <div className={styles.result}>
+      <div role="CardList" className={styles.result}>
         {apiData.products.map((el: CardProps, index: number) => (
           <Link
             key={index}

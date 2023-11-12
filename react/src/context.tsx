@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { ReactNode, useState, useContext } from 'react';
 import { ApiData, CardProps } from './types/types';
 
-interface ContextValue {
+export interface ContextValue {
   localStorageValue: string;
   setLocalStorageValue: (value: string) => void;
   page: number;
@@ -29,7 +29,7 @@ const searchApiResults: ApiData = {
   limit: 10,
 };
 
-const SearchContext = createContext<ContextValue | undefined>({
+export const SearchContext = createContext<ContextValue | undefined>({
   localStorageValue: '',
   setLocalStorageValue: () => '',
   page: 1,
