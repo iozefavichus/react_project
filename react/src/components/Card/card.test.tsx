@@ -2,10 +2,6 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Card } from './Card';
 
-test('demo', () => {
-  expect(true).toBe(true);
-});
-
 const props = {
   id: 1,
   title: 'product',
