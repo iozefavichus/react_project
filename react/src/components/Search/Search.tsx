@@ -2,21 +2,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import styles from './search.module.css';
 import ChooseLimit from '../ChooseLimit/ChooseLimit';
 import Pagination from '../Pagination/Pagination';
-import { MouseEventHandler, useState, useEffect } from 'react';
-import { useMyContext } from '../../context';
+import { MouseEventHandler, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setLocalStorageValue } from '../../features/search/searchSlice';
 
 function Header() {
-  const { localStorageValue, setLocalStorageValue, limit } = useMyContext();
-  // const [value, setValue] = useState(localStorageValue);
-
-  useEffect(() => {
-    setLocalStorageValue(localStorageValue);
-  }, [localStorageValue]);
-
-  // const setToLocalStorage = (value: string) => {
-  //   localStorage.setItem('inputValue', value);
-  //   setLocalStorageValue(value);
-  // };
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -30,16 +21,14 @@ function Header() {
     return localValue ? localValue : '';
   };
 
-  const [SearchValue, setSearchValue] = useState(
-    paramSearch ? paramSearch : getInputValue()
-  );
+  const [SearchValue] = useState(paramSearch ? paramSearch : getInputValue());
 
   const handleClick: MouseEventHandler = (e) => {
     e.preventDefault();
     localStorage.setItem('search', SearchValue);
     navigate(
       `/?search=${SearchValue}&skip=${paramSkip ? paramSkip : '0'}&limit=${
-        paramLimit ? paramLimit : limit
+        paramLimit ? paramLimit : 10
       }`
     );
   };
@@ -48,7 +37,7 @@ function Header() {
     <div className={styles.searchbar}>
       <input
         onChange={(e) => {
-          setSearchValue(e.target.value);
+          dispatch(setLocalStorageValue(e.target.value));
         }}
         className={styles.input_search}
         placeholder={getInputValue()}

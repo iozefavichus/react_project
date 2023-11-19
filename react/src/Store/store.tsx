@@ -1,5 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { userSlice } from '../features/search/searchSlice';
 
-export const ctore = configureStore({
-  reducer: {},
+export const store = configureStore({
+  reducer: {
+    search: userSlice,
+  },
 });

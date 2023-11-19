@@ -12,3 +12,9 @@ export interface ApiData {
   skip: number;
   limit: number;
 }
+
+export interface Store {
+  localStorageValue: string;
+  page: number;
+  limit: number;
+}
