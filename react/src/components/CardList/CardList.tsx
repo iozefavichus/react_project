@@ -5,9 +5,12 @@ import { CardProps } from '../../types/types';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useMyContext } from '../../context';
 import { fetchData } from '../ApiHelper/ApiHelper';
+import { useGetGoodsQuery } from '../ApiHelper/NewApi';
 // import { useSelector } from 'react-redux/es/hooks/useSelector';
 
 function Catalog() {
+  const {data} = useGetGoodsQuery();
+
   // const localStorageValue = useSelector(
   //   (state) => state.search.localStorageValue
   // );
